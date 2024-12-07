@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-app.use(express.static('docs'));
+app.use(express.static('public'));
 
 app.get('/posts', (req, res) => {
   const postsData = fs.readFileSync(path.join(__dirname, 'data', 'posts.json'), 'utf-8');
@@ -37,11 +37,11 @@ app.get('/hits', (req, res) => {
 
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'docs', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/archive', (req, res) => {
-  res.sendFile(path.join(__dirname, 'docs', 'archive.html'));
+  res.sendFile(path.join(__dirname, 'public', 'archive.html'));
 });
 
 app.listen(3000, () => {
