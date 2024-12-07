@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Post</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-...your-integrity-hash..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 <style>
   body {
     margin:0;
@@ -141,7 +141,7 @@
   .social-link::before {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: 60px; 
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     background: #333;
@@ -163,7 +163,7 @@
   .social-link::after {
     content: '';
     position: absolute;
-    bottom: 50px; 
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     width: 0; 
@@ -199,25 +199,17 @@
   .social-link i {
     pointer-events: none;
   }
-
-  #hit-counter {
-  margin-top: 10px; 
-  font-size: 0.9rem; 
-  color: #777;
-  font-family: 'Inter', sans-serif;
-}
-
 </style>
 </head>
 <body>
 <div class="navbar">
-  <a class="brand" href="/">
+  <a class="brand" href="index.html">
     <img src="logo.png" alt="College Chronicles">
     <span class="brand-text">College Chronicles</span>
   </a>
   <nav>
-    <a href="/">Home</a>
-    <a href="/archive">Archive</a>
+    <a href="index.html">Home</a>
+    <a href="archive.html">Archive</a>
   </nav>
 </div>
 <div class="post-container">
@@ -230,39 +222,36 @@
   const urlParams = new URLSearchParams(window.location.search);
   const slug = urlParams.get('slug');
 
-  if (!slug) {
-    document.getElementById('post-title').textContent = 'No post found';
-    document.getElementById('post-content').textContent = 'Invalid or missing slug parameter.';
-  } else {
-    fetch('/post/' + encodeURIComponent(slug))
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Post not found');
-        }
-        return response.json();
-      })
-      .then(post => {
-        document.getElementById('post-title').textContent = post.title;
-        document.getElementById('post-date').textContent = new Date(post.date).toLocaleDateString();
-        document.getElementById('post-content').innerHTML = post.content;
+  fetch('posts.json')
+    .then(response => response.json())
+    .then(posts => {
+      const post = posts.find(p => p.slug === slug);
+      if (!post) {
+        document.getElementById('post-title').textContent = 'No post found';
+        document.getElementById('post-content').textContent = 'Invalid or missing slug parameter.';
+        return;
+      }
 
-        // Insert image if exists
-        if (post.image) {
-          const img = document.createElement('img');
-          img.src = post.image;
-          img.alt = post.title;
-          img.classList.add('post-image');
+      document.getElementById('post-title').textContent = post.title;
+      document.getElementById('post-date').textContent = new Date(post.date).toLocaleDateString();
+      document.getElementById('post-content').innerHTML = post.content;
 
-          const postContainer = document.querySelector('.post-container');
-          postContainer.insertBefore(img, document.getElementById('post-content'));
-        }
-      })
-      .catch(err => {
-        document.getElementById('post-title').textContent = 'Error';
-        document.getElementById('post-content').textContent = 'Could not load the post.';
-      });
-  }
+      if (post.image) {
+        const img = document.createElement('img');
+        img.src = post.image;
+        img.alt = post.title;
+        img.classList.add('post-image');
+        const postContainer = document.querySelector('.post-container');
+        postContainer.insertBefore(img, document.getElementById('post-content'));
+      }
+    })
+    .catch(err => {
+      document.getElementById('post-title').textContent = 'Error';
+      document.getElementById('post-content').textContent = 'Could not load the post.';
+      console.error(err);
+    });
 </script>
+
 <footer class="footer">
   <div class="social-container">
     <a href="https://www.instagram.com/toba.banjo" class="social-link instagram" target="_blank" rel="noopener" data-tooltip="@toba.banjo">
@@ -272,27 +261,12 @@
       <i class="fab fa-snapchat-ghost"></i>
     </a>
   </div>
-  
-  <!-- Hit counter display -->
-  <div id="hit-counter" style="margin-top: 10px; font-size: 0.9rem; color: #777;">
-    Loading site visits...
-  </div>
+  <br><br>
+  <!-- Insert the provided hit counter snippet here -->
+  <div id="sfcta5jjgzu5gdqx4cfganjdk2rzdpf1m4s"></div>
+  <script type="text/javascript" src="https://counter6.optistats.ovh/private/counter.js?c=ta5jjgzu5gdqx4cfganjdk2rzdpf1m4s&down=async" async></script>
+  <noscript><a href="https://www.freecounterstat.com" title="page counter"><img src="https://counter6.optistats.ovh/private/freecounterstat.php?c=ta5jjgzu5gdqx4cfganjdk2rzdpf1m4s" border="0" title="page counter" alt="page counter"></a></noscript>
 </footer>
 
-<script>
-  // Fetch hit count and display in footer
-  fetch('/hits')
-    .then(response => response.json())
-    .then(data => {
-      const hitCounter = document.getElementById('hit-counter');
-      hitCounter.textContent = `Site Visits: ${data.count}`;
-    })
-    .catch(err => {
-      console.error('Error fetching hits:', err);
-      const hitCounter = document.getElementById('hit-counter');
-      hitCounter.textContent = 'Could not load site visits.';
-    });
-</script>
-<script type="text/javascript" src="https://unpkg.com/paper@0.12.3/dist/paper-full.js"></script>
 </body>
 </html>

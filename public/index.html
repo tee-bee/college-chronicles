@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>College Chronicles</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-...your-integrity-hash..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 <style>
   body {
     margin: 0;
@@ -14,7 +14,6 @@
     color: #333;
   }
 
-  /* Navbar */
   .navbar {
     display: flex;
     align-items: center;
@@ -54,14 +53,12 @@
     color: #000;
   }
 
-  /* Wrapper */
   #posts-wrapper {
     max-width: 800px;
     margin: 40px auto;
     padding: 0 20px;
   }
 
-  /* Post Card */
   .post-container {
     background: #fff;
     border: 1px solid #eee;
@@ -117,7 +114,6 @@
     color: #444;
   }
 
-  /* Responsive Adjustments */
   @media (max-width: 600px) {
     .post-title {
       font-size: 1.4rem;
@@ -145,7 +141,6 @@
     gap: 20px;
   }
 
-  /* Base styles for social links */
   .social-link {
     position: relative;
     display: inline-flex;
@@ -167,11 +162,10 @@
     box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   }
 
-  /* Tooltip styles */
   .social-link::before {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: 60px; /* place it above the icon */
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     background: #333;
@@ -190,7 +184,6 @@
     opacity: 1;
   }
 
-  /* Small arrow under the tooltip */
   .social-link::after {
     content: '';
     position: absolute;
@@ -210,21 +203,19 @@
     opacity: 1;
   }
 
-  /* Instagram hover effect: gradient and glow */
   .instagram:hover {
     background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
     color: #fff;
     box-shadow: 0 0 15px rgba(250,126,30,0.5);
   }
 
-  /* Snapchat hover effect */
   .snapchat {
-    color: #fffc00; /* snapchat yellow */
+    color: #fffc00; 
     background: #fff;
   }
 
   .snapchat:hover {
-    background: #fffc00; /* bright yellow */
+    background: #fffc00; 
     color: #000;
     box-shadow: 0 0 15px rgba(255,252,0,0.5);
   }
@@ -232,52 +223,42 @@
   .social-link i {
     pointer-events: none;
   }
-
-  #hit-counter {
-  margin-top: 10px; 
-  font-size: 0.9rem; 
-  color: #777;
-  font-family: 'Inter', sans-serif;
-}
-
 </style>
 </head>
 <body>
   <div class="navbar">
-    <a class="brand" href="/">
+    <a class="brand" href="index.html">
       <img src="logo.png" alt="College Chronicles">
       <span class="brand-text">College Chronicles</span>
     </a>
     <nav>
-      <a href="/">Home</a>
-      <a href="/archive">Archive</a>
+      <a href="index.html">Home</a>
+      <a href="archive.html">Archive</a>
     </nav>
   </div>
   <div id="posts-wrapper"></div>
 
 <script>
-  fetch('/posts')
+  fetch('posts.json')
     .then(response => response.json())
     .then(posts => {
       const wrapper = document.getElementById('posts-wrapper');
+      posts.sort((a,b) => new Date(b.date) - new Date(a.date));
       posts.forEach(post => {
         const container = document.createElement('div');
         container.classList.add('post-container');
 
-        // Title and link
         const title = document.createElement('h2');
         title.classList.add('post-title');
         const link = document.createElement('a');
-        link.href = `/post.html?slug=${encodeURIComponent(post.slug)}`;
+        link.href = `post.html?slug=${encodeURIComponent(post.slug)}`;
         link.textContent = post.title;
         title.appendChild(link);
 
-        // Date
         const date = document.createElement('div');
         date.classList.add('post-date');
         date.textContent = new Date(post.date).toLocaleDateString();
 
-        // Image if exists
         let img;
         if (post.image) {
           img = document.createElement('img');
@@ -286,7 +267,6 @@
           img.classList.add('post-image');
         }
 
-        // Snippet
         const snippet = document.createElement('div');
         snippet.classList.add('post-snippet');
         snippet.textContent = post.snippet || '';
@@ -299,7 +279,6 @@
         wrapper.appendChild(container);
       });
 
-      // Fade-in effect as user scrolls
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if(entry.isIntersecting) {
@@ -315,6 +294,7 @@
     })
     .catch(err => console.error(err));
 </script>
+
 <footer class="footer">
   <div class="social-container">
     <a href="https://www.instagram.com/toba.banjo" class="social-link instagram" target="_blank" rel="noopener" data-tooltip="@toba.banjo">
@@ -324,28 +304,11 @@
       <i class="fab fa-snapchat-ghost"></i>
     </a>
   </div>
-  
-  <!-- Hit counter display -->
-  <div id="hit-counter" style="margin-top: 10px; font-size: 0.9rem; color: #777;">
-    Loading site visits...
-  </div>
+  <br><br>
+  <!-- Insert the provided hit counter snippet here -->
+  <div id="sfcta5jjgzu5gdqx4cfganjdk2rzdpf1m4s"></div>
+  <script type="text/javascript" src="https://counter6.optistats.ovh/private/counter.js?c=ta5jjgzu5gdqx4cfganjdk2rzdpf1m4s&down=async" async></script>
+  <noscript><a href="https://www.freecounterstat.com" title="page counter"><img src="https://counter6.optistats.ovh/private/freecounterstat.php?c=ta5jjgzu5gdqx4cfganjdk2rzdpf1m4s" border="0" title="page counter" alt="page counter"></a></noscript>
 </footer>
-
-<script>
-  // Fetch hit count and display in footer
-  fetch('/hits')
-    .then(response => response.json())
-    .then(data => {
-      const hitCounter = document.getElementById('hit-counter');
-      hitCounter.textContent = `Site Visits: ${data.count}`;
-    })
-    .catch(err => {
-      console.error('Error fetching hits:', err);
-      const hitCounter = document.getElementById('hit-counter');
-      hitCounter.textContent = 'Could not load site visits.';
-    });
-</script>
-<script type="text/javascript" src="https://unpkg.com/paper@0.12.3/dist/paper-full.js"></script>
-
 </body>
 </html>
