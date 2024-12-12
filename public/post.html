@@ -241,6 +241,10 @@
         return;
       }
 
+
+      // Set the page title dynamically
+      document.title = post.title + " - College Chronicles";
+      
       document.getElementById('post-title').textContent = post.title;
       document.getElementById('post-date').textContent = new Date(post.date).toLocaleDateString();
       document.getElementById('post-content').innerHTML = post.content;
